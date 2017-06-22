@@ -44,7 +44,7 @@
 
 #define MY_NODE_ID 5
 
-#include <MyMySensors.h>
+#include "MyMySensors/MyMySensors.h"
 #include <BH1750.h>
 #include <BME280I2C.h>
 
@@ -59,20 +59,20 @@ static const uint64_t SLEEP_TIME = 600000;
 
 bool metric = true;
 
-MyValue<float> humidity(0, V_HUM, S_HUM);
-MyValue<float> temperature(1, V_TEMP, S_TEMP);
-MyValue<uint16_t> luminance(2, V_LIGHT_LEVEL, S_LIGHT_LEVEL);
+MyValue<float> humidity(0, V_HUM, S_HUM, 3.0);
+MyValue<float> temperature(1, V_TEMP, S_TEMP, 0.5);
+MyValue<uint16_t> luminance(2, V_LIGHT_LEVEL, S_LIGHT_LEVEL, 20);
 MyValue<uint16_t> tripped(4, V_TRIPPED, S_MOTION);
 
 PowerManager& powerManager = PowerManager::initInstance(-1, false);
 
 BH1750 lightSensor;
-BME280I2C bmeSensor;
+BME280I2C bmeSensor(1, 1, 1, 0);
 
 void presentation()
 { 
   // Send the sketch version information to the gateway
-  sendSketchInfo("Multisensor", "1.3");
+  sendSketchInfo("Multisensor", "1.4");
 
   humidity.presentValue();
   temperature.presentValue();
@@ -92,20 +92,19 @@ void setup()
 
   pinMode(DIGITAL_INPUT_SENSOR, INPUT);
 
-  lightSensor.begin();
-
-  if(!bmeSensor.begin()){
+  while(!bmeSensor.begin()){
     #ifdef MY_DEBUG
     Serial.println("Could not find BME280 sensor!");
     #endif
   }
-
 }
 
 void loop()      
 {
+  lightSensor.begin(BH1750_ONE_TIME_HIGH_RES_MODE);
+  bmeSensor.setMode(1);
   checkTransport();
-  sleep(100);
+  sleep(120);
   digitalWrite(MY_LED, HIGH);
 
   float temp = bmeSensor.temp();
