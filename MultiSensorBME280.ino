@@ -33,6 +33,7 @@
 
 // Enable debug prints
 //#define MY_DEBUG
+//#define MY_MY_DEBUG
 
 // Enable and select radio type attached 
 #define MY_RADIO_NRF24
@@ -72,7 +73,7 @@ BME280I2C bmeSensor(1, 1, 1, 0);
 void presentation()
 { 
   // Send the sketch version information to the gateway
-  sendSketchInfo("Multisensor", "1.4");
+  sendSketchInfo("Multisensor", "1.5");
 
   humidity.presentValue();
   temperature.presentValue();
@@ -82,6 +83,7 @@ void presentation()
 
 void setup()
 {
+  Serial.begin(115200);
   powerManager.setBatteryPin(A0, true);
 
   pinMode(MY_LED, OUTPUT);
@@ -92,8 +94,8 @@ void setup()
 
   pinMode(DIGITAL_INPUT_SENSOR, INPUT);
 
-  while(!bmeSensor.begin()){
-    #ifdef MY_DEBUG
+  if(!bmeSensor.begin()){
+    #ifdef MY_MY_DEBUG
     Serial.println("Could not find BME280 sensor!");
     #endif
   }
@@ -128,8 +130,14 @@ void loop()
     luminance.forceResend();
     tripped.forceResend();
     powerManager.forceResend();
+    #ifdef MY_MY_DEBUG
+    Serial.println("Wake up from button");
+    #endif
   }
   else if (wakeUpCause == digitalPinToInterrupt(DIGITAL_INPUT_SENSOR)) {
     digitalWrite(MY_LED, LOW);
+    #ifdef MY_MY_DEBUG
+    Serial.println("Wake up from motion");
+    #endif
   }
 }
