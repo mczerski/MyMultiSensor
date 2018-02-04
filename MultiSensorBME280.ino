@@ -38,12 +38,11 @@
 // Enable and select radio type attached 
 #define MY_RADIO_NRF24
 #define MY_RF24_CE_PIN 9
-#define MY_RF24_CS_PIN 8
+#define MY_RF24_CS_PIN 10
 #define MY_RF24_CHANNEL 100
-//#define MY_RADIO_RFM69
-//#define MY_RS485
+#define MY_RF24_PA_LEVEL RF24_PA_MAX
 
-#define MY_NODE_ID 5
+#define MY_NODE_ID 3
 
 #include "MyMySensors/MyMySensors.h"
 #include <BH1750.h>
@@ -51,7 +50,7 @@
 
 #define DIGITAL_INPUT_SENSOR 3
 #define BUTTON_PIN 2
-#define MY_LED A2
+#define MY_LED A1
 
 using namespace mymysensors;
 
@@ -65,7 +64,7 @@ MyValue<float> temperature(1, V_TEMP, S_TEMP, 0.5);
 MyValue<uint16_t> luminance(2, V_LIGHT_LEVEL, S_LIGHT_LEVEL, 20);
 MyValue<uint16_t> tripped(4, V_TRIPPED, S_MOTION);
 
-PowerManager& powerManager = PowerManager::initInstance(-1, false);
+PowerManager& powerManager = PowerManager::initInstance(A2, true);
 
 BH1750 lightSensor;
 BME280I2C bmeSensor(1, 1, 1, 0);
@@ -73,7 +72,7 @@ BME280I2C bmeSensor(1, 1, 1, 0);
 void presentation()
 { 
   // Send the sketch version information to the gateway
-  sendSketchInfo("Multisensor", "1.5");
+  sendSketchInfo("Multisensor", "1.7");
 
   humidity.presentValue();
   temperature.presentValue();
@@ -84,29 +83,33 @@ void presentation()
 void setup()
 {
   Serial.begin(115200);
-  powerManager.setBatteryPin(A0, true);
+  powerManager.setBatteryPin(A7, false);
 
   pinMode(MY_LED, OUTPUT);
   digitalWrite(MY_LED, LOW);
 
-  pinMode(BUTTON_PIN, INPUT);
-  digitalWrite(BUTTON_PIN, HIGH);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
-  pinMode(DIGITAL_INPUT_SENSOR, INPUT);
+  pinMode(DIGITAL_INPUT_SENSOR, INPUT_PULLUP);
 
   if(!bmeSensor.begin()){
     #ifdef MY_MY_DEBUG
     Serial.println("Could not find BME280 sensor!");
     #endif
   }
+  lightSensor.begin(BH1750_ONE_TIME_HIGH_RES_MODE);
 }
 
-void loop()      
+void loop()
 {
-  lightSensor.begin(BH1750_ONE_TIME_HIGH_RES_MODE);
+  powerManager.turnBoosterOn();
+  //wait for everything to setup (100ms for dc/dc converter)
+  wait(100);
+
+  lightSensor.configure(BH1750_ONE_TIME_HIGH_RES_MODE);
   bmeSensor.setMode(1);
   checkTransport();
-  sleep(120);
+  wait(120);
   digitalWrite(MY_LED, HIGH);
 
   float temp = bmeSensor.temp();
@@ -120,6 +123,8 @@ void loop()
   success &= tripped.updateValue(trip, true);
 
   unsigned long sleepTimeout = getSleepTimeout(success, SLEEP_TIME);
+
+  powerManager.turnBoosterOff();
 
   // Sleep for a while to save energy
   int wakeUpCause = sleep(digitalPinToInterrupt(BUTTON_PIN), FALLING, digitalPinToInterrupt(DIGITAL_INPUT_SENSOR), CHANGE, sleepTimeout);
