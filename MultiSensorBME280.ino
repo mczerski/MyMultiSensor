@@ -42,7 +42,7 @@
 #define MY_RF24_CHANNEL 100
 #define MY_RF24_PA_LEVEL RF24_PA_MAX
 
-#define MY_NODE_ID 3
+#define MY_NODE_ID 4
 
 #include "MyMySensors/MyMySensors.h"
 #include <BH1750.h>
@@ -117,7 +117,8 @@ void loop()
   uint16_t lux = lightSensor.readLightLevel();
   boolean trip = digitalRead(DIGITAL_INPUT_SENSOR);
 
-  bool success = temperature.updateValue(temp);
+  bool success = true;
+  success &= temperature.updateValue(temp);
   success &= humidity.updateValue(hum);
   success &= luminance.updateValue(lux);
   success &= tripped.updateValue(trip, true);
