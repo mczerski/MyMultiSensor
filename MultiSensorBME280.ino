@@ -42,108 +42,42 @@
 #define MY_RF24_CHANNEL 100
 #define MY_RF24_PA_LEVEL RF24_PA_MAX
 
+//#define MY_RADIO_RFM69
+#define MY_RFM69_CS_PIN 10
+#define MY_RFM69_IRQ_PIN 3
+#define MY_RFM69_NEW_DRIVER
+#define MY_RFM69_ATC_MODE_DISABLED
+#define MY_RFM69_TX_POWER_DBM 0
+
 #define MY_NODE_ID 4
 
-#include "MyMySensors/MyMySensors.h"
-#include <BH1750.h>
-#include <BME280I2C.h>
-
-#define DIGITAL_INPUT_SENSOR 3
 #define BUTTON_PIN 2
 #define MY_LED A1
+#include "MyMySensors/BME280Sensor.h"
+#include "MyMySensors/BH1750Sensor.h"
+//#include "MyMySensors/MotionSensor.h"
 
 using namespace mymysensors;
 
-// Sleep time between sensor updates (in milliseconds)
-static const uint64_t SLEEP_TIME = 600000;
-
-bool metric = true;
-
-MyValue<float> humidity(0, V_HUM, S_HUM, 3.0);
-MyValue<float> temperature(1, V_TEMP, S_TEMP, 0.5);
-MyValue<uint16_t> luminance(2, V_LIGHT_LEVEL, S_LIGHT_LEVEL, 20);
-MyValue<uint16_t> tripped(4, V_TRIPPED, S_MOTION);
-
-PowerManager& powerManager = PowerManager::initInstance(A2, true);
-
-BH1750 lightSensor;
-BME280I2C bmeSensor(1, 1, 1, 0);
+BME280Sensor bme280(0, 1, 3.0, 0.5);
+BH1750Sensor bh1750(2, 20);
+//MotionSensor motion(4, 3);
 
 void presentation()
 { 
   // Send the sketch version information to the gateway
   sendSketchInfo("Multisensor", "1.7");
 
-  humidity.presentValue();
-  temperature.presentValue();
-  luminance.presentValue();
-  tripped.presentValue();
+  MyMySensor::present();
 }
 
 void setup()
 {
   Serial.begin(115200);
-  powerManager.setBatteryPin(A7, false);
-
-  pinMode(MY_LED, OUTPUT);
-  digitalWrite(MY_LED, LOW);
-
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-
-  pinMode(DIGITAL_INPUT_SENSOR, INPUT_PULLUP);
-
-  if(!bmeSensor.begin()){
-    #ifdef MY_MY_DEBUG
-    Serial.println("Could not find BME280 sensor!");
-    #endif
-  }
-  lightSensor.begin(BH1750_ONE_TIME_HIGH_RES_MODE);
+  MyMySensor::begin(A7, false);
 }
 
 void loop()
 {
-  powerManager.turnBoosterOn();
-  //wait for everything to setup (100ms for dc/dc converter)
-  wait(100);
-
-  lightSensor.configure(BH1750_ONE_TIME_HIGH_RES_MODE);
-  bmeSensor.setMode(1);
-  checkTransport();
-  wait(120);
-  digitalWrite(MY_LED, HIGH);
-
-  float temp = bmeSensor.temp();
-  float hum = bmeSensor.hum();
-  uint16_t lux = lightSensor.readLightLevel();
-  boolean trip = digitalRead(DIGITAL_INPUT_SENSOR);
-
-  bool success = true;
-  success &= temperature.updateValue(temp);
-  success &= humidity.updateValue(hum);
-  success &= luminance.updateValue(lux);
-  success &= tripped.updateValue(trip, true);
-
-  unsigned long sleepTimeout = getSleepTimeout(success, SLEEP_TIME);
-
-  powerManager.turnBoosterOff();
-
-  // Sleep for a while to save energy
-  int wakeUpCause = sleep(digitalPinToInterrupt(BUTTON_PIN), FALLING, digitalPinToInterrupt(DIGITAL_INPUT_SENSOR), CHANGE, sleepTimeout);
-  if (wakeUpCause == digitalPinToInterrupt(BUTTON_PIN)) {
-    digitalWrite(MY_LED, LOW);
-    temperature.forceResend();
-    humidity.forceResend();
-    luminance.forceResend();
-    tripped.forceResend();
-    powerManager.forceResend();
-    #ifdef MY_MY_DEBUG
-    Serial.println("Wake up from button");
-    #endif
-  }
-  else if (wakeUpCause == digitalPinToInterrupt(DIGITAL_INPUT_SENSOR)) {
-    digitalWrite(MY_LED, LOW);
-    #ifdef MY_MY_DEBUG
-    Serial.println("Wake up from motion");
-    #endif
-  }
+  MyMySensor::update();
 }
