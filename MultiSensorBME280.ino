@@ -34,39 +34,82 @@
 // Enable debug prints
 //#define MY_DEBUG
 //#define MY_MY_DEBUG
+#define GRZEJNIK_GORA
 
 // Enable and select radio type attached 
-#define MY_RADIO_NRF24
+//#define MY_RADIO_NRF24
 #define MY_RF24_CE_PIN 9
 #define MY_RF24_CS_PIN 10
 #define MY_RF24_CHANNEL 100
 #define MY_RF24_PA_LEVEL RF24_PA_MAX
 
-//#define MY_RADIO_RFM69
+#define MY_RADIO_RFM69
 #define MY_RFM69_CS_PIN 10
 #define MY_RFM69_IRQ_PIN 3
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ATC_MODE_DISABLED
 #define MY_RFM69_TX_POWER_DBM 0
 
-#define MY_NODE_ID 4
+#ifdef GRZEJNIK_GORA
+#define MY_NODE_ID 3
+#define USE_BME280
+#define USE_BH1750
+#define USE_MOTION
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST true
+#define LI_ION_BATTERY true
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#endif
 
+#ifdef LODOWKA
+#define MY_NODE_ID 4
+#define USE_DS18B20
+#define INITIAL_BOOST true
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
 #define BUTTON_PIN 2
+#endif
+
+#ifdef TEMP_TEST
+#define MY_NODE_ID 25
+#define USE_BME280
+#define USE_DHT
+#define USE_DS18B20
+#define INITIAL_BOOST true
+#define ALWAYS_BOOST true
+#define LI_ION_BATTERY false
+#define BUTTON_PIN 2
+#endif
+
 #define MY_LED A1
 #include "MyMySensors/BME280Sensor.h"
 #include "MyMySensors/BH1750Sensor.h"
-//#include "MyMySensors/MotionSensor.h"
+#include "MyMySensors/MotionSensor.h"
+#include "MyMySensors/DHTSensor.h"
+#include "MyMySensors/DS18B20Sensor.h"
 
 using namespace mymysensors;
 
+#ifdef USE_BME280
 BME280Sensor bme280(0, 1, 3.0, 0.5);
+#endif
+#ifdef USE_BH1750
 BH1750Sensor bh1750(2, 20);
-//MotionSensor motion(4, 3);
+#endif
+#ifdef USE_MOTION
+MotionSensor motion(4, 2);
+#endif
+#ifdef USE_DHT
+DHTSensor dht(5, 6, 6, 3.0, 0.5);
+#endif
+#ifdef USE_DS18B20
+DS18B20Sensor ds18b20(7, A5, 0.5, A4);
+#endif
 
 void presentation()
 { 
   // Send the sketch version information to the gateway
-  sendSketchInfo("Multisensor", "1.7");
+  sendSketchInfo("Multisensor", "1.8");
 
   MyMySensor::present();
 }
@@ -74,7 +117,7 @@ void presentation()
 void setup()
 {
   Serial.begin(115200);
-  MyMySensor::begin(A7, false);
+  MyMySensor::begin(A7, LI_ION_BATTERY, A2, INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN);
 }
 
 void loop()
