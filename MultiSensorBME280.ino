@@ -34,7 +34,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 //#define MY_MY_DEBUG
-#define GRZEJNIK_GORA
+#define TEMP_TEST
 
 // Enable and select radio type attached 
 //#define MY_RADIO_NRF24
@@ -105,6 +105,14 @@ DHTSensor dht(5, 6, 6, 3.0, 0.5);
 #ifdef USE_DS18B20
 DS18B20Sensor ds18b20(7, A5, 0.5, A4);
 #endif
+#ifdef TEMP_TEST
+MyParameter<uint32_t> var1(0, V_VAR1, S_CUSTOM, 0);
+MyParameter<uint16_t> var2(1, V_VAR2, S_CUSTOM, 0);
+MyParameter<uint8_t> var3(2, V_VAR3, S_CUSTOM, 0);
+bool ledValue() {
+  return var1.get() == 0xdeadbeef or var2.get() == 0xaa55 or var3.get() == 42;
+}
+#endif
 
 void presentation()
 { 
@@ -118,9 +126,21 @@ void setup()
 {
   Serial.begin(115200);
   MyMySensor::begin(A7, LI_ION_BATTERY, A2, INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN);
+  #ifdef TEMP_TEST
+  pinMode(A0, OUTPUT);
+  digitalWrite(A0, ledValue());
+  #endif
 }
 
 void loop()
 {
   MyMySensor::update();
 }
+
+void receive(const MyMessage &message) {
+  MyMySensor::receive(message);
+  #ifdef TEMP_TEST
+  digitalWrite(A0, ledValue());
+  #endif
+}
+
