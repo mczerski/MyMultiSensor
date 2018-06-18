@@ -34,7 +34,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 //#define MY_MY_DEBUG
-#define TEMP_TEST
+#define LARGE_BATHROOM
 
 // Enable and select radio type attached 
 //#define MY_RADIO_NRF24
@@ -50,7 +50,7 @@
 #define MY_RFM69_ATC_MODE_DISABLED
 #define MY_RFM69_TX_POWER_DBM 0
 
-#ifdef GRZEJNIK_GORA
+#ifdef LARGE_BATHROOM
 #define MY_NODE_ID 3
 #define USE_BME280
 #define USE_BH1750
@@ -61,7 +61,7 @@
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
-#ifdef LODOWKA
+#ifdef FRIDGE
 #define MY_NODE_ID 4
 #define USE_DS18B20
 #define INITIAL_BOOST true
