@@ -34,7 +34,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 //#define MY_MY_DEBUG
-#define LARGE_BATHROOM
+#define FRIDGE
 
 // Enable and select radio type attached 
 //#define MY_RADIO_NRF24
@@ -45,7 +45,7 @@
 
 #define MY_RADIO_RFM69
 #define MY_RFM69_CS_PIN 10
-#define MY_RFM69_IRQ_PIN 3
+#define MY_RFM69_IRQ_PIN 2
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ATC_MODE_DISABLED
 #define MY_RFM69_TX_POWER_DBM 0
@@ -61,13 +61,22 @@
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
+#ifdef KITCHEN_MOTION
+#define MY_NODE_ID 26
+#define USE_MOTION
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST true
+#define LI_ION_BATTERY true
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#endif
+
 #ifdef FRIDGE
 #define MY_NODE_ID 4
 #define USE_DS18B20
 #define INITIAL_BOOST true
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
-#define BUTTON_PIN 2
+#define BUTTON_PIN 3
 #endif
 
 #ifdef TEMP_TEST
@@ -97,21 +106,13 @@ BME280Sensor bme280(0, 1, 3.0, 0.5);
 BH1750Sensor bh1750(2, 20);
 #endif
 #ifdef USE_MOTION
-MotionSensor motion(4, 2);
+MotionSensor motion(4, 3);
 #endif
 #ifdef USE_DHT
 DHTSensor dht(5, 6, 6, 3.0, 0.5);
 #endif
 #ifdef USE_DS18B20
-DS18B20Sensor ds18b20(7, A5, 0.5, A4);
-#endif
-#ifdef TEMP_TEST
-MyParameter<uint32_t> var1(0, V_VAR1, S_CUSTOM, 0);
-MyParameter<uint16_t> var2(1, V_VAR2, S_CUSTOM, 0);
-MyParameter<uint8_t> var3(2, V_VAR3, S_CUSTOM, 0);
-bool ledValue() {
-  return var1.get() == 0xdeadbeef or var2.get() == 0xaa55 or var3.get() == 42;
-}
+DS18B20Sensor ds18b20(7, A5, 0.5);
 #endif
 
 void presentation()
@@ -126,10 +127,6 @@ void setup()
 {
   Serial.begin(115200);
   MyMySensor::begin(A7, LI_ION_BATTERY, A2, INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN);
-  #ifdef TEMP_TEST
-  pinMode(A0, OUTPUT);
-  digitalWrite(A0, ledValue());
-  #endif
 }
 
 void loop()
@@ -139,8 +136,5 @@ void loop()
 
 void receive(const MyMessage &message) {
   MyMySensor::receive(message);
-  #ifdef TEMP_TEST
-  digitalWrite(A0, ledValue());
-  #endif
 }
 
