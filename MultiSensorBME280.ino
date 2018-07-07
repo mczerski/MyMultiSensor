@@ -34,7 +34,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 //#define MY_MY_DEBUG
-#define FRIDGE
+#define LARGE_BEDROOM_MOTION
 
 // Enable and select radio type attached 
 //#define MY_RADIO_NRF24
@@ -50,19 +50,33 @@
 #define MY_RFM69_ATC_MODE_DISABLED
 #define MY_RFM69_TX_POWER_DBM 0
 
-#ifdef LARGE_BATHROOM
+#ifdef LARGE_BATHROOM_MOTION
 #define MY_NODE_ID 3
 #define USE_BME280
-#define USE_BH1750
-#define USE_MOTION
-#define INITIAL_BOOST false
-#define ALWAYS_BOOST true
-#define LI_ION_BATTERY true
-#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define MULTISENSOR
 #endif
-
 #ifdef KITCHEN_MOTION
 #define MY_NODE_ID 26
+#define USE_BME280
+#define MULTISENSOR
+#endif
+#ifdef CORRIDOR_MOTION
+#define MY_NODE_ID 27
+#define USE_BME280
+#define MULTISENSOR
+#endif
+#ifdef SMALL_BEDROOM_MOTION
+#define MY_NODE_ID 28
+#define USE_BME280
+#define MULTISENSOR
+#endif
+#ifdef LARGE_BEDROOM_MOTION
+#define MY_NODE_ID 29
+#define MULTISENSOR
+#endif
+
+#ifdef MULTISENSOR
+#define USE_BH1750
 #define USE_MOTION
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST true
@@ -79,15 +93,15 @@
 #define BUTTON_PIN 3
 #endif
 
-#ifdef TEMP_TEST
+#ifdef BOARD_TEST
 #define MY_NODE_ID 25
 #define USE_BME280
-#define USE_DHT
-#define USE_DS18B20
-#define INITIAL_BOOST true
-#define ALWAYS_BOOST true
-#define LI_ION_BATTERY false
-#define BUTTON_PIN 2
+#define USE_BH1750
+#define USE_MOTION
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY true
+#define BUTTON_PIN 3
 #endif
 
 #define MY_LED A1
