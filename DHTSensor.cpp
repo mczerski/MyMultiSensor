@@ -2,9 +2,10 @@
 
 namespace mys_toolkit {
 
-void DHTSensor::begin_()
+bool DHTSensor::begin_()
 {
   dhtSensor_.setup(dataPin_);
+  return true;
 }
 
 unsigned long DHTSensor::preUpdate_()

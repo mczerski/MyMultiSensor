@@ -13,7 +13,7 @@ class DHTSensor: public SensorBase
   uint8_t dataPin_;
   SensorValue<float> humidity_;
   SensorValue<float> temperature_;
-  void begin_() override;
+  bool begin_() override;
   unsigned long preUpdate_() override;
   unsigned long update_() override;
 

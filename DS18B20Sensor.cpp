@@ -8,7 +8,7 @@ void DS18B20Sensor::power(uint8_t value)
     digitalWrite(powerPin_, value);
 }
 
-void DS18B20Sensor::begin_()
+bool DS18B20Sensor::begin_()
 {
   if (powerPin_ != uint8_t(-1))
     pinMode(powerPin_, OUTPUT);
@@ -24,6 +24,7 @@ void DS18B20Sensor::begin_()
   Serial.print("DS18B20: parasite: ");
   Serial.println(isParasite);
 #endif
+  return true;
 }
 
 unsigned long DS18B20Sensor::preUpdate_()

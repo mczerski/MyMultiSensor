@@ -2,24 +2,28 @@
 
 namespace mys_toolkit {
 
-void BME280Sensor::begin_()
+bool BME280Sensor::begin_()
 {
-  if(!bmeSensor_.begin()){
-    #ifdef MYS_TOOLKIT_DEBUG
-    Serial.println("Could not find BME280 sensor!");
-    #endif
+  auto sucess = bmeSensor_.begin();
+  #ifdef MYS_TOOLKIT_DEBUG
+  if(sucess){
+    Serial.println("Found BME280 sensor");
+    logMsg("Found BME280 sensor");
   }
-}
-
-unsigned long BME280Sensor::preUpdate_()
-{
-  return 120;
+  else {
+    Serial.println("Could not find BME280 sensor!");
+    logMsg("Could not find BME280 sensor!");
+  }
+  #endif
+  return sucess;
 }
 
 unsigned long BME280Sensor::update_()
 {
-  humidity_.update(bmeSensor_.hum());
-  temperature_.update(bmeSensor_.temp());
+  if (initialised_) {
+    humidity_.update(bmeSensor_.hum());
+    temperature_.update(bmeSensor_.temp());
+  }
   return SLEEP_TIME;
 }
 

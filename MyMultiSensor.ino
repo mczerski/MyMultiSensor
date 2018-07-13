@@ -1,7 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
-//#define MYS_TOOLKIT_DEBUG
-#define LARGE_BATHROOM_MOTION
+
+#define SMALL_BEDROOM_MOTION
+#define SKETCH_NAME "Multisensor"
+#define SKETCH_MAJOR_VER "1"
+#define SKETCH_MINOR_VER "9"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -36,6 +39,7 @@
 #define MULTISENSOR
 #endif
 
+#include <Wire.h>
 #include <MySensors.h>
 #include <MySensorsToolkit.h>
 
@@ -63,11 +67,13 @@
 #define BUTTON_PIN 3
 #endif
 
-#ifdef BOARD_TEST
+#ifdef TEST
 #define MY_NODE_ID 25
 #define USE_BME280
 #define USE_BH1750
 #define USE_MOTION
+#define USE_DHT
+#define USE_DS18B20
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY true
@@ -99,7 +105,7 @@ DS18B20Sensor ds18b20(7, A5, 0.5);
 void presentation()
 { 
   // Send the sketch version information to the gateway
-  sendSketchInfo("Multisensor", "1.8");
+  sendSketchInfo(SKETCH_NAME, SKETCH_MAJOR_VER "." SKETCH_MINOR_VER);
 
   SensorBase::present();
 }
@@ -107,6 +113,7 @@ void presentation()
 void setup()
 {
   Serial.begin(115200);
+  Wire.begin();
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
                     INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN, LED_PIN);
 }

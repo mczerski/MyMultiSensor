@@ -15,7 +15,7 @@ class DS18B20Sensor: public SensorBase
   uint8_t powerPin_;
   SensorValue<float> temperature_;
   void power(uint8_t value);
-  void begin_() override;
+  bool begin_() override;
   unsigned long preUpdate_() override;
   unsigned long update_() override;
 

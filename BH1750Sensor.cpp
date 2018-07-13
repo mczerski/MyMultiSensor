@@ -2,15 +2,20 @@
 
 namespace mys_toolkit {
 
-void BH1750Sensor::begin_()
+bool BH1750Sensor::begin_()
 {
-  lightSensor_.begin(BH1750::ONE_TIME_HIGH_RES_MODE);
-}
-
-unsigned long BH1750Sensor::preUpdate_()
-{
-  lightSensor_.configure(BH1750::ONE_TIME_HIGH_RES_MODE);
-  return 120;
+  auto sucess = lightSensor_.begin(BH1750::ONE_TIME_HIGH_RES_MODE);
+  #ifdef MYS_TOOLKIT_DEBUG
+  if(sucess){
+    Serial.println("Found BH1750 sensor");
+    logMsg("Found BH1750 sensor");
+  }
+  else {
+    Serial.println("Could not find BH1750 sensor!");
+    logMsg("Could not find BH1750 sensor!");
+  }
+  #endif
+  return sucess;
 }
 
 unsigned long BH1750Sensor::update_()
