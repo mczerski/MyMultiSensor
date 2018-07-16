@@ -21,7 +21,7 @@ unsigned long DHTSensor::update_()
   return SLEEP_TIME;
 }
 
-DHTSensor::DHTSensor(uint8_t humSensorId, uint8_t tempSensorId, uint8_t dataPin, float humTreshold = 0, float tempTreshold = 0)
+DHTSensor::DHTSensor(uint8_t humSensorId, uint8_t tempSensorId, uint8_t dataPin, float humTreshold, float tempTreshold)
   : dataPin_(dataPin),
     humidity_(humSensorId, V_HUM, S_HUM, humTreshold),
     temperature_(tempSensorId, V_TEMP, S_TEMP, tempTreshold)
