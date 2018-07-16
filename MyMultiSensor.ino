@@ -123,4 +123,8 @@ void loop()
   SensorBase::update();
 }
 
+void receive(const MyMessage &message) {
+  SensorBase::receive(message);
+}
+
 
