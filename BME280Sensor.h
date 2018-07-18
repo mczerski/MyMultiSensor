@@ -10,7 +10,6 @@ namespace mys_toolkit {
 class BME280Sensor: public SensorBase
 {
   BME280I2C bmeSensor_;
-  bool initialised_ = false;
   SensorValue<float> humidity_;
   SensorValue<float> temperature_;
   bool begin_() override;
