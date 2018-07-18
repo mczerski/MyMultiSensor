@@ -38,7 +38,6 @@ unsigned long DS18B20Sensor::update_()
 {
   auto temp = sensor_.getTempCByIndex(0);
 #ifdef MYS_TOOLKIT_DEBUG
-  auto devCount = sensor_.getDeviceCount();
   Serial.print("DS18B20: temp: ");
   Serial.println(temp);
 #endif

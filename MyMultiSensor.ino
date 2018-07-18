@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_MOTION
+#define LARGE_BEDROOM_MOTION
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "1"
 #define SKETCH_MINOR_VER "9"
@@ -19,12 +19,12 @@
 #define USE_BME280
 #define MULTISENSOR
 #endif
-#ifdef KITCHEN_MOTION
+#ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
 #define USE_BME280
 #define MULTISENSOR
 #endif
-#ifdef CORRIDOR_MOTION
+#ifdef LARGE_BEDROOM_MOTION
 #define MY_NODE_ID 27
 #define USE_BME280
 #define MULTISENSOR
@@ -34,9 +34,17 @@
 #define USE_BME280
 #define MULTISENSOR
 #endif
-#ifdef LARGE_BEDROOM_MOTION
+#ifdef KITCHEN_MOTION
 #define MY_NODE_ID 29
 #define MULTISENSOR
+#endif
+
+#ifdef FRIDGE
+#define MY_NODE_ID 4
+#endif
+
+#ifdef TEST
+#define MY_NODE_ID 25
 #endif
 
 #include <Wire.h>
@@ -59,7 +67,6 @@
 #endif
 
 #ifdef FRIDGE
-#define MY_NODE_ID 4
 #define USE_DS18B20
 #define INITIAL_BOOST true
 #define ALWAYS_BOOST false
@@ -68,16 +75,15 @@
 #endif
 
 #ifdef TEST
-#define MY_NODE_ID 25
-#define USE_BME280
-#define USE_BH1750
+//#define USE_BME280
+//#define USE_BH1750
 #define USE_MOTION
-#define USE_DHT
-#define USE_DS18B20
+//#define USE_DHT
+//#define USE_DS18B20
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
-#define LI_ION_BATTERY true
-#define BUTTON_PIN 3
+#define LI_ION_BATTERY false
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
 #define LED_PIN A1
@@ -103,7 +109,7 @@ DS18B20Sensor ds18b20(7, A5, 0.5);
 #endif
 
 void presentation()
-{ 
+{
   // Send the sketch version information to the gateway
   sendSketchInfo(SKETCH_NAME, SKETCH_MAJOR_VER "." SKETCH_MINOR_VER);
 
