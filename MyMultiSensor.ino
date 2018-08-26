@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define LARGE_BEDROOM_MOTION
+#define LARGE_BATHROOM_MOTION
 #define SKETCH_NAME "Multisensor"
-#define SKETCH_MAJOR_VER "1"
-#define SKETCH_MINOR_VER "9"
+#define SKETCH_MAJOR_VER "2"
+#define SKETCH_MINOR_VER "0"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -13,6 +13,7 @@
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ATC_MODE_DISABLED
 #define MY_RFM69_TX_POWER_DBM 0
+#define MY_SIGNAL_REPORT_ENABLED
 
 #ifdef LARGE_BATHROOM_MOTION
 #define MY_NODE_ID 3
@@ -37,6 +38,15 @@
 #ifdef KITCHEN_MOTION
 #define MY_NODE_ID 29
 #define MULTISENSOR
+#endif
+
+#ifdef BALCONY_MOTION
+#define MY_NODE_ID 30
+#define USE_MOTION
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
 #ifdef FRIDGE
@@ -118,7 +128,6 @@ void presentation()
 
 void setup()
 {
-  Serial.begin(115200);
   Wire.begin();
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
                     INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN, LED_PIN);
