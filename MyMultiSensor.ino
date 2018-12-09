@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define LARGE_BATHROOM_MOTION
+#define SMALL_BATHROOM
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "0"
@@ -19,6 +19,15 @@
 #define MY_NODE_ID 3
 #define USE_BME280
 #define MULTISENSOR
+#endif
+#ifdef SMALL_BATHROOM
+#define MY_NODE_ID 21
+#define USE_BME280
+#define USE_BH1750
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
+#define BUTTON_PIN 3
 #endif
 #ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
@@ -141,5 +150,3 @@ void loop()
 void receive(const MyMessage &message) {
   SensorBase::receive(message);
 }
-
-
