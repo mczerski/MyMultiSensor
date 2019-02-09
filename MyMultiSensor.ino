@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BATHROOM
+#define CORRIDOR_MOTION
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "0"
+#define SKETCH_MINOR_VER "3"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -18,6 +18,7 @@
 #ifdef LARGE_BATHROOM_MOTION
 #define MY_NODE_ID 3
 #define USE_BME280
+#define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef SMALL_BATHROOM
@@ -31,21 +32,23 @@
 #endif
 #ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
-#define USE_BME280
 #define MULTISENSOR
 #endif
 #ifdef LARGE_BEDROOM_MOTION
 #define MY_NODE_ID 27
 #define USE_BME280
+#define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef SMALL_BEDROOM_MOTION
 #define MY_NODE_ID 28
 #define USE_BME280
+#define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef KITCHEN_MOTION
 #define MY_NODE_ID 29
+#define USE_BH1750
 #define MULTISENSOR
 #endif
 
@@ -77,7 +80,6 @@
 #include "DS18B20Sensor.h"
 
 #ifdef MULTISENSOR
-#define USE_BH1750
 #define USE_MOTION
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST true
