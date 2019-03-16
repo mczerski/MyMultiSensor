@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define CORRIDOR_MOTION
+#define SMALL_BEDROOM_BUTTON
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "3"
+#define SKETCH_MINOR_VER "4"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -17,12 +17,14 @@
 
 #ifdef LARGE_BATHROOM_MOTION
 #define MY_NODE_ID 3
+#define SKETCH_SUBNAME "LargeBathroom"
 #define USE_BME280
 #define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef SMALL_BATHROOM
 #define MY_NODE_ID 21
+#define SKETCH_SUBNAME "SmallBathroom"
 #define USE_BME280
 #define USE_BH1750
 #define INITIAL_BOOST false
@@ -32,28 +34,33 @@
 #endif
 #ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
+#define SKETCH_SUBNAME "Corridor"
 #define MULTISENSOR
 #endif
 #ifdef LARGE_BEDROOM_MOTION
 #define MY_NODE_ID 27
+#define SKETCH_SUBNAME "LargeBedroom"
 #define USE_BME280
 #define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef SMALL_BEDROOM_MOTION
 #define MY_NODE_ID 28
+#define SKETCH_SUBNAME "SmallBedroom"
 #define USE_BME280
 #define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef KITCHEN_MOTION
 #define MY_NODE_ID 29
+#define SKETCH_SUBNAME "Kitchen"
 #define USE_BH1750
 #define MULTISENSOR
 #endif
 
 #ifdef BALCONY_MOTION
 #define MY_NODE_ID 30
+#define SKETCH_SUBNAME "Balcony"
 #define USE_MOTION
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
@@ -63,6 +70,14 @@
 
 #ifdef FRIDGE
 #define MY_NODE_ID 4
+#define SKETCH_SUBNAME "Fridge"
+#endif
+
+#ifdef SMALL_BEDROOM_BUTTON
+#define MY_NODE_ID 31
+#undef SKETCH_NAME
+#define SKETCH_NAME "Button"
+#define SKETCH_SUBNAME "SmallBedroom"
 #endif
 
 #ifdef TEST
@@ -78,6 +93,7 @@
 #include <MySensorsToolkit/Sensor/MotionSensor.h>
 #include "DHTSensor.h"
 #include "DS18B20Sensor.h"
+#include <MySensorsToolkit/Sensor/ButtonSensor.h>
 
 #ifdef MULTISENSOR
 #define USE_MOTION
@@ -95,16 +111,24 @@
 #define BUTTON_PIN 3
 #endif
 
+#ifdef SMALL_BEDROOM_BUTTON
+#define USE_BUTTON
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#endif
+
 #ifdef TEST
 //#define USE_BME280
 //#define USE_BH1750
-#define USE_MOTION
+//#define USE_MOTION
 //#define USE_DHT
 //#define USE_DS18B20
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
-#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define BUTTON_PIN 3//INTERRUPT_NOT_DEFINED
 #endif
 
 #define LED_PIN A1
@@ -128,11 +152,14 @@ DHTSensor dht(5, 6, 6, 3.0, 0.5);
 #ifdef USE_DS18B20
 DS18B20Sensor ds18b20(7, A5, 0.5);
 #endif
+#ifdef USE_BUTTON
+ButtonSensor button(8, 3);
+#endif
 
 void presentation()
 {
   // Send the sketch version information to the gateway
-  sendSketchInfo(SKETCH_NAME, SKETCH_MAJOR_VER "." SKETCH_MINOR_VER);
+  sendSketchInfo(SKETCH_NAME "-" SKETCH_SUBNAME, SKETCH_MAJOR_VER "." SKETCH_MINOR_VER);
 
   SensorBase::present();
 }
