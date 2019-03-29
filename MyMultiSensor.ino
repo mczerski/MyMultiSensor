@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_BUTTON
+#define SMALL_BEDROOM_BUTTON2
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "4"
@@ -73,10 +73,17 @@
 #define SKETCH_SUBNAME "Fridge"
 #endif
 
-#ifdef SMALL_BEDROOM_BUTTON
+#ifdef SMALL_BEDROOM_BUTTON1
 #define MY_NODE_ID 31
 #undef SKETCH_NAME
 #define SKETCH_NAME "Button"
+#define SKETCH_SUBNAME "SmallBedroom"
+#endif
+
+#ifdef SMALL_BEDROOM_BUTTON2
+#define MY_NODE_ID 32
+#undef SKETCH_NAME
+#define SKETCH_NAME "Button2"
 #define SKETCH_SUBNAME "SmallBedroom"
 #endif
 
@@ -111,7 +118,15 @@
 #define BUTTON_PIN 3
 #endif
 
-#ifdef SMALL_BEDROOM_BUTTON
+#ifdef SMALL_BEDROOM_BUTTON1
+#define USE_BUTTON
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#endif
+
+#ifdef SMALL_BEDROOM_BUTTON2
 #define USE_BUTTON
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
