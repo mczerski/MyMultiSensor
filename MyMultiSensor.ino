@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_BUTTON2
+#define CORRIDOR_MOTION
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "4"
+#define SKETCH_MINOR_VER "5"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -146,7 +146,7 @@
 #define BUTTON_PIN 3//INTERRUPT_NOT_DEFINED
 #endif
 
-#define LED_PIN A1
+#define LED_PIN -1
 #define BATTERY_SENSE_PIN A7
 #define POWER_BOOST_PIN A2
 
