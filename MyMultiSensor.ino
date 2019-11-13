@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define CORRIDOR_MOTION
+#define DUST_SENSOR
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "5"
@@ -87,6 +87,14 @@
 #define SKETCH_SUBNAME "SmallBedroom"
 #endif
 
+#ifdef DUST_SENSOR
+#define MY_NODE_ID 33
+#define MY_DISABLED_SERIAL
+#undef SKETCH_NAME
+#define SKETCH_NAME "Dust"
+#define SKETCH_SUBNAME "Sensor"
+#endif
+
 #ifdef TEST
 #define MY_NODE_ID 25
 #endif
@@ -101,6 +109,9 @@
 #include "DHTSensor.h"
 #include "DS18B20Sensor.h"
 #include <MySensorsToolkit/Sensor/ButtonSensor.h>
+#include "DustSensor.h"
+
+using namespace mys_toolkit;
 
 #ifdef MULTISENSOR
 #define USE_MOTION
@@ -134,6 +145,16 @@
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
+#ifdef DUST_SENSOR
+#define CLOCK_PRESCALER CLOCK_PRESCALER_1
+DustSensor ds(Serial, 1, 2, 3);
+#define USE_BUTTON
+#define INITIAL_BOOST true
+#define ALWAYS_BOOST true
+#define LI_ION_BATTERY false
+#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#endif
+
 #ifdef TEST
 //#define USE_BME280
 //#define USE_BH1750
@@ -149,8 +170,6 @@
 #define LED_PIN -1
 #define BATTERY_SENSE_PIN A7
 #define POWER_BOOST_PIN A2
-
-using namespace mys_toolkit;
 
 #ifdef USE_BME280
 BME280Sensor bme280(0, 1, 3.0, 0.5);
@@ -182,6 +201,9 @@ void presentation()
 void setup()
 {
   Wire.begin();
+#ifdef DUST_SENSOR
+  Serial.begin(9600);
+#endif
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
                     INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN, LED_PIN);
 }
