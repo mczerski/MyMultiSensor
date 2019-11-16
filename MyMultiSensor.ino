@@ -149,9 +149,9 @@ using namespace mys_toolkit;
 #define CLOCK_PRESCALER CLOCK_PRESCALER_1
 DustSensor ds(Serial, 1, 2, 3);
 #define USE_BUTTON
-#define INITIAL_BOOST true
-#define ALWAYS_BOOST true
-#define LI_ION_BATTERY false
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY true
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #endif
 
