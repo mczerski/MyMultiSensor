@@ -119,6 +119,7 @@ using namespace mys_toolkit;
 #define ALWAYS_BOOST true
 #define LI_ION_BATTERY true
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define LED_PIN -1
 #endif
 
 #ifdef FRIDGE
@@ -127,6 +128,7 @@ using namespace mys_toolkit;
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN 3
+#define LED_PIN -1
 #endif
 
 #ifdef SMALL_BEDROOM_BUTTON1
@@ -135,6 +137,7 @@ using namespace mys_toolkit;
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define LED_PIN -1
 #endif
 
 #ifdef SMALL_BEDROOM_BUTTON2
@@ -143,6 +146,7 @@ using namespace mys_toolkit;
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define LED_PIN -1
 #endif
 
 #ifdef DUST_SENSOR
@@ -152,7 +156,8 @@ DustSensor ds(Serial, 1, 2, 3);
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY true
-#define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define BUTTON_PIN 3
+#define LED_PIN A1
 #endif
 
 #ifdef TEST
@@ -167,7 +172,6 @@ DustSensor ds(Serial, 1, 2, 3);
 #define BUTTON_PIN 3//INTERRUPT_NOT_DEFINED
 #endif
 
-#define LED_PIN -1
 #define BATTERY_SENSE_PIN A7
 #define POWER_BOOST_PIN A2
 

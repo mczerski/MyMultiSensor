@@ -11,7 +11,8 @@ bool DustSensor::begin_()
 unsigned long DustSensor::preUpdate_()
 {
   pmsSensor_.wakeUp();
-  return 30000;
+  pmsSensor_.passiveMode();
+  return 40000;
 }
 
 unsigned long DustSensor::update_()
@@ -23,6 +24,8 @@ unsigned long DustSensor::update_()
     pm25_.update(data_.PM_AE_UG_2_5);
     pm100_.update(data_.PM_AE_UG_10_0);
   }
+  delay(100);
+  pmsSensor_.sleep();
   pmsSensor_.sleep();
   return 600000;
 }
