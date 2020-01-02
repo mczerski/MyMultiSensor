@@ -90,6 +90,9 @@
 #ifdef DUST_SENSOR
 #define MY_NODE_ID 33
 #define MY_DISABLED_SERIAL
+#undef MY_RFM69_IRQ_PIN
+#define MY_RFM69_IRQ_PIN 3
+#define MY_IS_RFM69HW
 #undef SKETCH_NAME
 #define SKETCH_NAME "Dust"
 #define SKETCH_SUBNAME "Sensor"
