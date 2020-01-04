@@ -89,10 +89,8 @@
 
 #ifdef DUST_SENSOR
 #define MY_NODE_ID 33
-#define MY_DISABLED_SERIAL
 #undef MY_RFM69_IRQ_PIN
 #define MY_RFM69_IRQ_PIN 3
-#define MY_IS_RFM69HW
 #undef SKETCH_NAME
 #define SKETCH_NAME "Dust"
 #define SKETCH_SUBNAME "Sensor"
@@ -153,13 +151,11 @@ using namespace mys_toolkit;
 #endif
 
 #ifdef DUST_SENSOR
-#define CLOCK_PRESCALER CLOCK_PRESCALER_1
-DustSensor ds(Serial, 1, 2, 3);
-#define USE_BUTTON
+DustSensor ds(1, 2, 3, 6, 5);
 #define INITIAL_BOOST false
-#define ALWAYS_BOOST false
+#define ALWAYS_BOOST true
 #define LI_ION_BATTERY true
-#define BUTTON_PIN 3
+#define BUTTON_PIN 2
 #define LED_PIN A1
 #endif
 
@@ -208,9 +204,6 @@ void presentation()
 void setup()
 {
   Wire.begin();
-#ifdef DUST_SENSOR
-  Serial.begin(9600);
-#endif
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
                     INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN, LED_PIN);
 }
