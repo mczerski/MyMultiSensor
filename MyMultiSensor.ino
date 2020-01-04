@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define DUST_SENSOR
+#define LARGE_BEDROOM_MOTION
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "5"
+#define SKETCH_MINOR_VER "6"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -21,6 +21,18 @@
 #define USE_BME280
 #define USE_BH1750
 #define MULTISENSOR
+#endif
+#ifdef LIVINGROOM
+#define MY_NODE_ID 20
+#define SKETCH_SUBNAME "Livingroom"
+#define USE_BME280
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LI_ION_BATTERY false
+#define BUTTON_PIN 2
+#undef MY_RFM69_IRQ_PIN
+#define MY_RFM69_IRQ_PIN 3
+#define LED_PIN -1
 #endif
 #ifdef SMALL_BATHROOM
 #define MY_NODE_ID 21
