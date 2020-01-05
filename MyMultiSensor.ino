@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define LARGE_BEDROOM_MOTION
+#define SMALL_BEDROOM_BUTTON2
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "6"
@@ -12,7 +12,7 @@
 #define MY_RFM69_IRQ_PIN 2
 #define MY_RFM69_NEW_DRIVER
 #define MY_RFM69_ATC_MODE_DISABLED
-#define MY_RFM69_TX_POWER_DBM 0
+#define MY_RFM69_TX_POWER_DBM 10
 #define MY_SIGNAL_REPORT_ENABLED
 
 #ifdef LARGE_BATHROOM_MOTION
