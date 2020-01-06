@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_BUTTON2
+#define LARGE_BEDROOM_MOTION
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "6"
@@ -47,6 +47,7 @@
 #ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
 #define SKETCH_SUBNAME "Corridor"
+#define USE_BH1750
 #define MULTISENSOR
 #endif
 #ifdef LARGE_BEDROOM_MOTION
