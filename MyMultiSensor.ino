@@ -1,10 +1,10 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define LARGE_BEDROOM_MOTION
+#define TEST
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "6"
+#define SKETCH_MINOR_VER "7"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -111,6 +111,9 @@
 
 #ifdef TEST
 #define MY_NODE_ID 25
+#undef SKETCH_NAME
+#define SKETCH_NAME "Test"
+#define SKETCH_SUBNAME ""
 #endif
 
 #include <Wire.h>
@@ -126,6 +129,10 @@
 #include "DustSensor.h"
 
 using namespace mys_toolkit;
+
+#define BATTERY_SENSE_PIN A7
+#define POWER_BOOST_PIN A2
+#define LOW_VOLTAGE_BOOST false
 
 #ifdef MULTISENSOR
 #define USE_MOTION
@@ -165,11 +172,13 @@ using namespace mys_toolkit;
 
 #ifdef DUST_SENSOR
 DustSensor ds(1, 2, 3, 6, 5);
-#define INITIAL_BOOST false
-#define ALWAYS_BOOST true
+#define INITIAL_BOOST true
+#define ALWAYS_BOOST false
 #define LI_ION_BATTERY true
 #define BUTTON_PIN 2
 #define LED_PIN A1
+#undef POWER_BOOST_PIN
+#define POWER_BOOST_PIN A0
 #endif
 
 #ifdef TEST
@@ -182,10 +191,10 @@ DustSensor ds(1, 2, 3, 6, 5);
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN 3//INTERRUPT_NOT_DEFINED
+#define LED_PIN A1
+#undef LOW_VOLTAGE_BOOST
+#define LOW_VOLTAGE_BOOST true
 #endif
-
-#define BATTERY_SENSE_PIN A7
-#define POWER_BOOST_PIN A2
 
 #ifdef USE_BME280
 BME280Sensor bme280(0, 1, 3.0, 0.5);
@@ -218,7 +227,8 @@ void setup()
 {
   Wire.begin();
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
-                    INITIAL_BOOST, ALWAYS_BOOST, BUTTON_PIN, LED_PIN);
+                    INITIAL_BOOST, ALWAYS_BOOST, LOW_VOLTAGE_BOOST,
+                    BUTTON_PIN, LED_PIN);
 }
 
 void loop()
