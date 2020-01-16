@@ -13,6 +13,7 @@ class DustSensor: public SensorBase
   SoftwareSerial serial_;
   PMS pmsSensor_;
   PMS::DATA data_;
+  uint8_t tx_pin_;
   SensorValue<uint16_t> pm10_;
   SensorValue<uint16_t> pm25_;
   SensorValue<uint16_t> pm100_;

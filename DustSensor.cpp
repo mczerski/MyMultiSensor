@@ -13,6 +13,7 @@ bool DustSensor::begin_()
 
 unsigned long DustSensor::preUpdate_()
 {
+  serial_.begin(PMS::BAUD_RATE);
   Serial.println("Waking up");
   pmsSensor_.wakeUp();
   pmsSensor_.passiveMode();
@@ -39,8 +40,10 @@ unsigned long DustSensor::update_()
   }
   delay(100);
   pmsSensor_.sleep();
-  pmsSensor_.sleep();
+  serial_.flush();
+  pinMode(tx_pin_, INPUT);
   Serial.println("Done");
+  Serial.flush();
   return 600000;
 }
 
@@ -49,7 +52,8 @@ DustSensor::DustSensor(uint8_t pm10SensorId, uint8_t pm25SensorId, uint8_t pm100
     pmsSensor_(serial_),
     pm10_(pm10SensorId, V_UNIT_PREFIX, S_DUST, 0),
     pm25_(pm25SensorId, V_UNIT_PREFIX, S_DUST, 0),
-    pm100_(pm100SensorId, V_UNIT_PREFIX, S_DUST, 0)
+    pm100_(pm100SensorId, V_UNIT_PREFIX, S_DUST, 0),
+    tx_pin_(tx_pin)
 {
 }
 

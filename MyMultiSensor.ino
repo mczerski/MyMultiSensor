@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define TEST
+#define DUST_SENSOR
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "7"
@@ -177,8 +177,6 @@ DustSensor ds(1, 2, 3, 6, 5);
 #define LI_ION_BATTERY true
 #define BUTTON_PIN 2
 #define LED_PIN A1
-#undef POWER_BOOST_PIN
-#define POWER_BOOST_PIN A0
 #endif
 
 #ifdef TEST
