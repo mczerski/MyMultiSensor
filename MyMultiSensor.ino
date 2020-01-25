@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define DUST_SENSOR
+#define SMALL_BEDROOM_BUTTON1
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "7"
@@ -132,12 +132,12 @@ using namespace mys_toolkit;
 
 #define BATTERY_SENSE_PIN A7
 #define POWER_BOOST_PIN A2
-#define LOW_VOLTAGE_BOOST false
 
 #ifdef MULTISENSOR
 #define USE_MOTION
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST true
+#define LOW_VOLTAGE_BOOST false
 #define LI_ION_BATTERY true
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #define LED_PIN -1
@@ -147,6 +147,7 @@ using namespace mys_toolkit;
 #define USE_DS18B20
 #define INITIAL_BOOST true
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN 3
 #define LED_PIN -1
@@ -156,6 +157,7 @@ using namespace mys_toolkit;
 #define USE_BUTTON
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST true
 #define LI_ION_BATTERY false
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #define LED_PIN -1
@@ -165,6 +167,7 @@ using namespace mys_toolkit;
 #define USE_BUTTON
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST true
 #define LI_ION_BATTERY false
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
 #define LED_PIN -1
@@ -175,6 +178,7 @@ DustSensor ds(1, 2, 3, 6, 5);
 #define INITIAL_BOOST true
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY true
+#define LOW_VOLTAGE_BOOST false
 #define BUTTON_PIN 2
 #define LED_PIN A1
 #endif
@@ -188,10 +192,9 @@ DustSensor ds(1, 2, 3, 6, 5);
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
 #define LI_ION_BATTERY false
+#define LOW_VOLTAGE_BOOST true
 #define BUTTON_PIN 3//INTERRUPT_NOT_DEFINED
 #define LED_PIN A1
-#undef LOW_VOLTAGE_BOOST
-#define LOW_VOLTAGE_BOOST true
 #endif
 
 #ifdef USE_BME280
