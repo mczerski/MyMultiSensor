@@ -50,10 +50,10 @@ unsigned long DustSensor::update_()
 DustSensor::DustSensor(uint8_t pm10SensorId, uint8_t pm25SensorId, uint8_t pm100SensorId, uint8_t rx_pin, uint8_t tx_pin)
   : serial_(rx_pin, tx_pin),
     pmsSensor_(serial_),
+    tx_pin_(tx_pin),
     pm10_(pm10SensorId, V_UNIT_PREFIX, S_DUST, 0),
     pm25_(pm25SensorId, V_UNIT_PREFIX, S_DUST, 0),
-    pm100_(pm100SensorId, V_UNIT_PREFIX, S_DUST, 0),
-    tx_pin_(tx_pin)
+    pm100_(pm100SensorId, V_UNIT_PREFIX, S_DUST, 0)
 {
 }
 

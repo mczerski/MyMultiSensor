@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_BUTTON1
+#define SMALL_BEDROOM_BUTTON2
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "7"
@@ -216,20 +216,20 @@ DS18B20Sensor ds18b20(7, A5, 0.5);
 ButtonSensor button(8, 3);
 #endif
 
+void before()
+{
+  Wire.begin();
+  SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
+                    INITIAL_BOOST, ALWAYS_BOOST, LOW_VOLTAGE_BOOST,
+                    BUTTON_PIN, LED_PIN);  
+}
+
 void presentation()
 {
   // Send the sketch version information to the gateway
   sendSketchInfo(SKETCH_NAME "-" SKETCH_SUBNAME, SKETCH_MAJOR_VER "." SKETCH_MINOR_VER);
 
   SensorBase::present();
-}
-
-void setup()
-{
-  Wire.begin();
-  SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
-                    INITIAL_BOOST, ALWAYS_BOOST, LOW_VOLTAGE_BOOST,
-                    BUTTON_PIN, LED_PIN);
 }
 
 void loop()
