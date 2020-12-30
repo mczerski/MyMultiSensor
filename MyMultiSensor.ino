@@ -4,7 +4,7 @@
 #define SMALL_BEDROOM_BUTTON2
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "7"
+#define SKETCH_MINOR_VER "8"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
