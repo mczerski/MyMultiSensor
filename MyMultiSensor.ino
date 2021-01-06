@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define SMALL_BEDROOM_BUTTON2
+#define TEST
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "8"
@@ -28,6 +28,7 @@
 #define USE_BME280
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST true
 #define LI_ION_BATTERY false
 #define BUTTON_PIN 2
 #undef MY_RFM69_IRQ_PIN
@@ -41,8 +42,10 @@
 #define USE_BH1750
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST true
 #define LI_ION_BATTERY false
 #define BUTTON_PIN 3
+#define LED_PIN -1
 #endif
 #ifdef CORRIDOR_MOTION
 #define MY_NODE_ID 26
