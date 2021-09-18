@@ -1,5 +1,9 @@
 #include "BME280Sensor.h"
 
+#ifdef MYS_TOOLKIT_DEBUG
+extern HardwareSerial MYS_TOOLKIT_SERIAL;
+#endif
+
 namespace mys_toolkit {
 
 bool BME280Sensor::begin_()
@@ -7,11 +11,11 @@ bool BME280Sensor::begin_()
   auto success = bmeSensor_.begin();
   #ifdef MYS_TOOLKIT_DEBUG
   if(success){
-    Serial.println("Found BME280 sensor");
+    MYS_TOOLKIT_SERIAL.println("Found BME280 sensor");
     logMsg("Found BME280 sensor");
   }
   else {
-    Serial.println("Could not find BME280 sensor!");
+    MYS_TOOLKIT_SERIAL.println("Could not find BME280 sensor!");
     logMsg("Could not find BME280 sensor!");
   }
   #endif

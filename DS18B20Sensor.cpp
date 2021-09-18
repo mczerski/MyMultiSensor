@@ -1,5 +1,9 @@
 #include "DS18B20Sensor.h"
 
+#ifdef MYS_TOOLKIT_DEBUG
+extern HardwareSerial MYS_TOOLKIT_SERIAL;
+#endif
+
 namespace mys_toolkit {
 
 void DS18B20Sensor::power(uint8_t value)
@@ -17,12 +21,12 @@ bool DS18B20Sensor::begin_()
   sensor_.setWaitForConversion(false);
 #ifdef MYS_TOOLKIT_DEBUG
   auto devCount = sensor_.getDeviceCount();
-  Serial.print("DS18B20: Found ");
-  Serial.print(devCount);
-  Serial.println(" devices");
+  MYS_TOOLKIT_SERIAL.print("DS18B20: Found ");
+  MYS_TOOLKIT_SERIAL.print(devCount);
+  MYS_TOOLKIT_SERIAL.println(" devices");
   auto isParasite = sensor_.isParasitePowerMode();
-  Serial.print("DS18B20: parasite: ");
-  Serial.println(isParasite);
+  MYS_TOOLKIT_SERIAL.print("DS18B20: parasite: ");
+  MYS_TOOLKIT_SERIAL.println(isParasite);
 #endif
   return true;
 }
@@ -38,8 +42,8 @@ unsigned long DS18B20Sensor::update_()
 {
   auto temp = sensor_.getTempCByIndex(0);
 #ifdef MYS_TOOLKIT_DEBUG
-  Serial.print("DS18B20: temp: ");
-  Serial.println(temp);
+  MYS_TOOLKIT_SERIAL.print("DS18B20: temp: ");
+  MYS_TOOLKIT_SERIAL.println(temp);
 #endif
   power(LOW);
   if (temp == DEVICE_DISCONNECTED_C) {

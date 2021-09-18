@@ -1,39 +1,43 @@
 #include "DustSensor.h"
 
+#ifdef MYS_TOOLKIT_DEBUG
+extern HardwareSerial MYS_TOOLKIT_SERIAL;
+#endif
+
 namespace mys_toolkit {
 
 bool DustSensor::begin_()
 {
   serial_.begin(PMS::BAUD_RATE);
-  Serial.println("Setting passive Mode");
+  MYS_TOOLKIT_SERIAL.println("Setting passive Mode");
   pmsSensor_.passiveMode();
-  Serial.println("OK");
+  MYS_TOOLKIT_SERIAL.println("OK");
   return true;
 }
 
 unsigned long DustSensor::preUpdate_()
 {
   serial_.begin(PMS::BAUD_RATE);
-  Serial.println("Waking up");
+  MYS_TOOLKIT_SERIAL.println("Waking up");
   pmsSensor_.wakeUp();
   pmsSensor_.passiveMode();
-  Serial.println("OK");
+  MYS_TOOLKIT_SERIAL.println("OK");
   return 40000;
 }
 
 unsigned long DustSensor::update_()
 {
-  Serial.println("Reguest read");
+  MYS_TOOLKIT_SERIAL.println("Reguest read");
   pmsSensor_.requestRead();
-  Serial.println("OK");
+  MYS_TOOLKIT_SERIAL.println("OK");
   if (pmsSensor_.readUntil(data_))
   {
-    Serial.print("pm10: ");
-    Serial.println(data_.PM_AE_UG_1_0);
-    Serial.print("pm25: ");
-    Serial.println(data_.PM_AE_UG_2_5);
-    Serial.print("pm100: ");
-    Serial.println(data_.PM_AE_UG_10_0);
+    MYS_TOOLKIT_SERIAL.print("pm10: ");
+    MYS_TOOLKIT_SERIAL.println(data_.PM_AE_UG_1_0);
+    MYS_TOOLKIT_SERIAL.print("pm25: ");
+    MYS_TOOLKIT_SERIAL.println(data_.PM_AE_UG_2_5);
+    MYS_TOOLKIT_SERIAL.print("pm100: ");
+    MYS_TOOLKIT_SERIAL.println(data_.PM_AE_UG_10_0);
     pm10_.update(data_.PM_AE_UG_1_0);
     pm25_.update(data_.PM_AE_UG_2_5);
     pm100_.update(data_.PM_AE_UG_10_0);
@@ -42,8 +46,8 @@ unsigned long DustSensor::update_()
   pmsSensor_.sleep();
   serial_.flush();
   pinMode(tx_pin_, INPUT);
-  Serial.println("Done");
-  Serial.flush();
+  MYS_TOOLKIT_SERIAL.println("Done");
+  MYS_TOOLKIT_SERIAL.flush();
   return 600000;
 }
 

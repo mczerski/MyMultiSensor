@@ -80,8 +80,10 @@
 #define USE_MOTION
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST false
 #define LI_ION_BATTERY false
 #define BUTTON_PIN INTERRUPT_NOT_DEFINED
+#define LED_PIN -1
 #endif
 
 #ifdef FRIDGE
