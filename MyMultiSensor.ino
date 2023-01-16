@@ -223,7 +223,12 @@ ButtonSensor button(8, 3);
 
 void before()
 {
+  #if defined(USE_BME280) || defined(USE_BH1750)
+  #if defined(USE_DS18B20)
+  #error "Cannot set USE_DS18B20 toghether with USE_BME280 or USE_BH1750"
+  #endif
   Wire.begin();
+  #endif
   SensorBase::begin(BATTERY_SENSE_PIN, LI_ION_BATTERY, POWER_BOOST_PIN,
                     INITIAL_BOOST, ALWAYS_BOOST, LOW_VOLTAGE_BOOST,
                     BUTTON_PIN, LED_PIN);  
