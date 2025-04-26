@@ -4,7 +4,7 @@
 #define TEST
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
-#define SKETCH_MINOR_VER "8"
+#define SKETCH_MINOR_VER "9"
 
 // Enable and select radio type attached 
 #define MY_RADIO_RFM69
@@ -39,7 +39,6 @@
 #define MY_NODE_ID 21
 #define SKETCH_SUBNAME "SmallBathroom"
 #define USE_BME280
-#define USE_BH1750
 #define INITIAL_BOOST false
 #define ALWAYS_BOOST false
 #define LOW_VOLTAGE_BOOST true
