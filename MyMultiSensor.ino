@@ -66,12 +66,6 @@
 #define USE_BH1750
 #define MULTISENSOR
 #endif
-#ifdef KITCHEN_MOTION
-#define MY_NODE_ID 29
-#define SKETCH_SUBNAME "Kitchen"
-#define USE_BH1750
-#define MULTISENSOR
-#endif
 
 #ifdef BALCONY_MOTION
 #define MY_NODE_ID 30
