@@ -1,7 +1,7 @@
 // Enable debug prints
 //#define MY_DEBUG
 
-#define TEST
+#define LARGE_BATHROOM
 #define SKETCH_NAME "Multisensor"
 #define SKETCH_MAJOR_VER "2"
 #define SKETCH_MINOR_VER "9"
@@ -15,12 +15,16 @@
 #define MY_RFM69_TX_POWER_DBM 10
 #define MY_SIGNAL_REPORT_ENABLED
 
-#ifdef LARGE_BATHROOM_MOTION
+#ifdef LARGE_BATHROOM
 #define MY_NODE_ID 3
 #define SKETCH_SUBNAME "LargeBathroom"
 #define USE_BME280
-#define USE_BH1750
-#define MULTISENSOR
+#define INITIAL_BOOST false
+#define ALWAYS_BOOST false
+#define LOW_VOLTAGE_BOOST true
+#define LI_ION_BATTERY false
+#define BUTTON_PIN 3
+#define LED_PIN -1
 #endif
 #ifdef LIVINGROOM
 #define MY_NODE_ID 20
